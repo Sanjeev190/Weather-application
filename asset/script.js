@@ -91,42 +91,12 @@ function getWeather(cityName){
             
         
     
-    fetch(forecastWeatherURL)
-    .then(function(response){
-        if(response.ok){
-            response.json()
-            .then(function(data){
-                console.log("forecaset data",data.list);
-               
-                displayForecastWeather(data)
-            })
-           
-        }
-        else{
-          console.log(`Error:${response.statusText}`)
-    }
-})
-    .catch(function(error){
-        alert('Unable to connect to WeatherApi');
-    })
-
-
-const showWeatherInfo = () => {
-    console.log("showWeatherInfo", filterHelper);
-
-    const filteredHtml = filterHelper.map((item) => {
-        return `<ul>
-        <li style="color:blue;background-color:red;font-size:20px;font-weight:bold;">${item.dt_txt}</li>'
-        <li>${item.main.temp}</li>
-        </ul>`;
-    }).join('');  // Join the array into a single string
-
-    weatherInfo.append(filteredHtml);  // Append the string to the weatherInfo element
+    // Append the string to the weatherInfo element
 };
     
 //    things we need to display
 // name,date,icon,image of weather condition,temperature,humidity,wind speed
-}
+
    
     function displayCurrentWeather(data) {
     const { name, weather, main, wind, dt } = data;
