@@ -18,36 +18,24 @@ searchBUtton.click(function(event){
     event.preventDefault();
     const cityName=cityNameInput.val()
     if (cityName) {
-        getWeather(cityName)}
+        getWeather(cityName)
+        weatherInfo.text('');
+        weatherList.text('');
+    }
 
      else{alert(`plese enter a city name`)}
     if(!searchHistory.includes(cityName)){
         searchHistory.push(cityName)
+        console.log(searchHistory)
+        cityList.append(`<li class="list-group-item list-group-item-info ">${cityName}</li>`
+        )
         updateSearchHistory()
     }
     cityNameInput.val('');
-
 })
-// this will trigger the get weather function and display the five day forecast of the city
 
-//     function getWeather(cityName){
-    
-//     //     const currentWeatherURl=`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`
-//     //     // console.log(currentWeatherURl)
-//     // // const forecastWeatherURL=`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric`
-//     // function getUrl(lat,lon){ 
-//     // return `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
-//     // }
 
-//     // const forecastWeatherURL = 
-//     // // console.log(forecastWeatherURL)
-//     // fetch(currentWeatherURl)
-//     // .then(function(response){
-//     //     if(response.ok){
-//     //         response.json()
-//     //         .then(function(data){
-//     //             console.log("current weather data :",data)
-//     //             displayCurrentWeather(data)
+
 function getWeather(cityName){
     const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
     const forecastWeatherUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric`;
@@ -75,24 +63,25 @@ function getWeather(cityName){
                 response.json()
                 .then(function(data){
                     console.log(data)
+                    weatherList.text('');
+                
                     data.list.forEach(function(item){
+
                     if (item.dt_txt.includes("12:00:00")){
                         console.log(item)
+                        // weatherList.text('');
+                    
                         displayForecastWeather(item)
-
-// i want to create like a list to dispaly the upcoming forecast weather
-                        
+                       
             }
             })
-
-            })
-}
- } )
+            })}
+        })}
             
-        
+        // i want to create like a list to dispaly the upcoming forecast weather
     
     // Append the string to the weatherInfo element
-};
+
     
 //    things we need to display
 // name,date,icon,image of weather condition,temperature,humidity,wind speed
@@ -114,6 +103,7 @@ function getWeather(cityName){
     
     `;
     console.log(weatherHtml);
+    weatherInfo.text('');
     weatherInfo.append(weatherHtml);
 }
 
@@ -126,27 +116,35 @@ function displayForecastWeather(item) {
     const date = new Date(item.dt_txt).toLocaleDateString();
     const foreCast=`
     <div class="forecast">
-    <h2><span class="fw-bold fst=italic">${date})</span><img src="http://openweathermap.org/img/wn/${weather[0].icon}.png" alt="${weather[0].description}"></h2>
+    <h3><span class="fw-bold fst-italic">(${date})</span><img src="http://openweathermap.org/img/wn/${weather[0].icon}.png" alt="${weather[0].description}"></h3>
     <p>Temperature: ${main.temp} °C</p>
         <p>Humidity: ${main.humidity} %</p>
         <p>Wind Speed: ${wind.speed} m/s</p>
         </div>
     `
     console.log(foreCast)
+    // weatherList.text('');
+
     weatherList.append(foreCast)
-    
-    
-  
-
-
-   
 }
+// i have to get the api for the input value of the city name  and get the city name  we need to 
+// get the weather information  of the enetred city and delete the prrevious city
+
 
 function updateSearchHistory() {
+
     cityList.html = searchHistory.map(city => `<li>${city}</li>`).join('');
     cityList.find('li').each(function(){
-        $(this).click(() => getWeather($(this).text()));
-    })
+        $(this).click(() => {getWeather($(this).text())
+           
+        //     weatherInfo.text('');
+        // weatherList.text('');
+        }
+    
+    );
+      // cityList.append(<li>${cityNameInput}</li>)
+    }
+)
     // cityList.querySelectorAll('li').forEach(item => {
     //     item.addEventListener('click', () => getWeather(item.textContent));
     
